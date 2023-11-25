@@ -1,8 +1,13 @@
+#IMPORTING THE REQUIRED LIBRARIES
 import os
 import json
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+
+#Phone pe repository cloning
+
+phonepe_url = !git clone https://github.com/PhonePe/pulse.git
 
 #Aggregate TRANSACTION
 
