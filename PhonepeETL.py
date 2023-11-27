@@ -399,29 +399,28 @@ with col1:
                st.dataframe(pin)
 
 #Geo Map visualization
-
+st_info = open('india_states.geojson','r')
+Indian_states = json.load(st_info)
 with col2:    
         if option == "Transactions":
                 comp_data = pd.read_sql_query('select "State",sum("Transaction_count") as "Transactions_count",sum("Transaction_amount") as "Total_Amount" from agg_transac group by "State" order by "State" ',con=engine)
                 fig = px.choropleth(
                 comp_data,
-                geojson="https://gist.githubusercontent.com/jbrobst/56c13bbbf9d97d187fea01ca62ea5112/raw/e388c4cae20aa53cb5090210a42ebb9b765c0a36/india_states.geojson",
-                featureidkey='properties.ST_NM',
-                locations='State',
-                color="Transactions_count",
-                hover_name= "State",
+                geojson = Indian_states,
+                featureidkey ='properties.ST_NM',
+                locations ='State',
+                color ="Transactions_count",
+                hover_name = "State",
                 hover_data= ['Total_Amount'],
                 color_continuous_scale= 'PuBuGn',
                 projection='mercator',
                 )
 
                 fig.update_geos(fitbounds="locations", visible=False)
-                fig.update_layout(height=800,
-                                width=800)
-
-                
-
+                fig.update_layout(height=800,width=800)
                 st.plotly_chart(fig, use_container_width=False)
+
+#Users MAP Visualization
         elif option == "User":
                 user_data = pd.read_sql_query('select "State",sum("User_count") as "Users_count" from agg_user group by "State" ',con=engine)
                 fig = px.choropleth(
@@ -437,11 +436,7 @@ with col2:
                         )
 
                 fig.update_geos(fitbounds="locations", visible=False)
-                fig.update_layout(height=800,
-                                width=800)
-
-                
-
+                fig.update_layout(height=800,width=800)
                 st.plotly_chart(fig, use_container_width=False)
 
 c1,c2 = st.columns(2)
